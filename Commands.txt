@@ -9,3 +9,4 @@ dotnet sln add Application
 dotnet sln add Persistence
 code .
 dotnet tool install --global dotnet-ef --version 9.0.0 (Already installed)
+npm install -D vite-plugin-mkcert -> Creates a local Certificate Authority which creates locally trusted development certificates.
