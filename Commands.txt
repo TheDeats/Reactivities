@@ -1,0 +1,10 @@
+dotnet new sln
+dotnet new webapi -n API -f net9.0 -controllers
+dotnet new classlib -n Domain -f net9.0
+dotnet new classlib -n Application -f net9.0
+dotnet new classlib -n Persistence -f net9.0
+dotnet sln add API
+dotnet sln add Domain
+dotnet sln add Application
+dotnet sln add Persistence
+code .
