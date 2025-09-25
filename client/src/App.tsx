@@ -1,26 +1,29 @@
+import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
-    fetch('https://localhost:5001/api/activities')
-    .then(response => response.json())
-    .then(data => setActivities(data))
+    fetch("https://localhost:5001/api/activities")
+      .then((response) => response.json())
+      .then((data) => setActivities(data));
 
-    return () => {}
-  }, [])
-  
-  return(
-    <div>
-      <h3 className="app" style={{color: 'red'}}>Reactivities</h3>
-      <ul>
+    return () => {};
+  }, []);
+
+  return (
+    <>
+      <Typography variant="h3">Reactivities</Typography>
+      <List>
         {activities.map((activity) => (
-          <li key={activity.id}>{activity.title}</li>
+          <ListItem key={activity.id}>
+            <ListItemText>{activity.title}</ListItemText>
+          </ListItem>
         ))}
-      </ul>
-    </div>
-  )
+      </List>
+    </>
+  );
 }
 
 export default App;
