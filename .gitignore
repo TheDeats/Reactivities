@@ -484,5 +484,6 @@ $RECYCLE.BIN/
 *.swp
 
 Course Assets/
-API/reactivities.db
 API/appsettings.json
+API/reactivities.db-wal
+API/reactivities.db-shm
