@@ -1,3 +1,4 @@
+using Application.Activities.Queries;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -12,11 +13,15 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 
 builder.Services.AddCors();
+builder.Services.AddMediatR(x =>
+    x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>());
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseCors(x => x.AllowAnyHeader().AllowAnyHeader().WithOrigins("http://localhost:3000", "https://localhost:3000"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyHeader()
+    .WithOrigins("http://localhost:3000", "https://localhost:3000"));
+    
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
