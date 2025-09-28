@@ -8,6 +8,7 @@ type Props = {
 }
 
 export default function ActivityForm({activity, closeForm, submitForm}: Props) {
+    console.log(activity);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -31,7 +32,7 @@ export default function ActivityForm({activity, closeForm, submitForm}: Props) {
         <Typography variant="h5" gutterBottom color="primary">Create activity</Typography>
         <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={3}>
             <TextField name="title" label="Title" defaultValue={activity?.title} />
-            <TextField name="descciption" label="Descciption" defaultValue={activity?.description} multiline rows={3} />
+            <TextField name="description" label="Description" defaultValue={activity?.description} multiline rows={3} />
             <TextField name="category" label="Category" defaultValue={activity?.category} />
             <TextField name="date" label="Date" defaultValue={activity?.date} type="date"/>
             <TextField name="city" label="City" defaultValue={activity?.city} />
