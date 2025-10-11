@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "React",
+      "type": "chrome",
+      "request": "launch",
+      "url": "https://localhost:3000",
+      "webRoot": "${workspaceFolder}/client/src"
+    },
+    {
       "name": "C#: API Debug",
       "type": "dotnet",
       "request": "launch",
