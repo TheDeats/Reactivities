@@ -1,5 +1,5 @@
 import { AccessTime, Place } from "@mui/icons-material";
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Chip, Divider, Typography } from "@mui/material"
+import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typography } from "@mui/material"
 import { Link } from "react-router";
 
 type Props = {
