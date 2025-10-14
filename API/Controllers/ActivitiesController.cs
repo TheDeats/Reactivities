@@ -1,6 +1,7 @@
 using Application.Activities.Commands;
 using Application.Activities.DTOs;
 using Application.Activities.Queries;
+using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ public class ActivitiesController : BaseApiController
     [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)
     {
-        return await Mediator.Send(new GetActivityDetails.Query { Id = id });
+        return HandleResult(await Mediator.Send(new GetActivityDetails.Query { Id = id }));
     }
 
     [HttpPost]
