@@ -17,12 +17,6 @@ export default function ProfileCard({ profile }: Props) {
                        sx={{width: 200, zIndex: 50}}
                        alt={profile.displayName + ' image'}
             />
-            <CardMedia 
-                component='img'
-                src={profile?.imageUrl || '/images/user.png'}
-                sx={{width: 200, zIndex: 50}}
-                alt={profile.displayName + ' image'}
-            />
             <CardContent>
                 <Box display='flex' alignItems='center' gap={1}>
                     <Typography variant="h5">{profile.displayName}</Typography>
