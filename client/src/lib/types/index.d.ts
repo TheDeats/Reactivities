@@ -48,6 +48,11 @@ type LocationIQAddress = {
   village?: string
 }
 
+type Photo = {
+  id: string
+  url: string
+}
+
 type Profile = {
   id: string
   displayName: string
