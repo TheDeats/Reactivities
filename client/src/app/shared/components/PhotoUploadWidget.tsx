@@ -1,6 +1,6 @@
 import { CloudUpload } from "@mui/icons-material";
 import { Box, Button, Grid2, Typography } from "@mui/material";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {useDropzone} from 'react-dropzone'
 import { Cropper, type ReactCropperElement } from "react-cropper";
 import "cropperjs/dist/cropper.css";
@@ -13,6 +13,12 @@ type Props = {
 export default function PhotoUploadWidget({uploadPhoto, loading}: Props) {
     const [files, setFiles] = useState<object & { preview: string; }[]>([]);
     const cropperRef = useRef<ReactCropperElement>(null);
+
+    useEffect(() => {
+        return () => {
+            files.forEach(file => URL.revokeObjectURL(file.preview))
+        }
+    }, [files]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         setFiles(acceptedFiles.map(file => Object.assign(file, {
@@ -62,26 +68,23 @@ export default function PhotoUploadWidget({uploadPhoto, loading}: Props) {
                 ref={cropperRef}
             /> }
         </Grid2>
-        <Grid2 size={4}>
-            {files[0]?.preview && (
-                <>
-                    <Typography variant="overline" color="secondary">Step 3 - Preview and Upload</Typography>
-                    <div
-                        className="img-preview"
-                        style={{width: 300, height: 300, overflow: 'hidden'}}
-                    />
-                    <Button
-                        sx={{mt: 2}}
-                        onClick={onCrop}
-                        variant="contained"
-                        color="secondary"
-                        disabled={loading}
-                        >
-                        Upload
-                    </Button>
-                </>
-            )}
-            
+        <Grid2 size={4} sx={{ visibility: files[0]?.preview ? 'visible' : 'hidden', height: '100%'}}>
+            <>
+                <Typography variant="overline" color="secondary">Step 3 - Preview and Upload</Typography>
+                <div
+                    className="img-preview"
+                    style={{width: 300, height: 300, overflow: 'hidden'}}
+                />
+                <Button
+                    sx={{my: 1, width: 300}}
+                    onClick={onCrop}
+                    variant="contained"
+                    color="secondary"
+                    disabled={loading}
+                    >
+                    Upload
+                </Button>
+            </>
         </Grid2>
     </Grid2>
   )
