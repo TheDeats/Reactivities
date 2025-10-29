@@ -19,7 +19,7 @@ export default function ProfileAbout() {
             <Typography variant="h5">About {profile?.displayName}</Typography>
             {isCurrentUser && 
                 <Button onClick={handleClick}>
-                    Edit Profile
+                    {editMode ? 'Cancel' : 'Edit Profile'} 
                 </Button>
             }
         </Box>
