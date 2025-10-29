@@ -46,5 +46,7 @@ export const useComments = (activityId?: string) => {
         }
     }, [activityId, commentStore]);
 
-    return commentStore;
+    return {
+        commentStore
+    }
 }
