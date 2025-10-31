@@ -1,12 +1,16 @@
 import { Avatar, Box, Button, Chip, Divider, Grid2, Paper, Stack, Typography } from "@mui/material";
+import { useParams } from "react-router";
+import { useProfile } from "../../lib/hooks/useProfile";
 
-type Props = {
-    profile: Profile
-}
+export default function ProfileHeader() {
+    const { id } = useParams();
+    const { isCurrentUser, profile, updateFollowing } = useProfile(id);
 
-export default function ProfileHeader({profile}: Props) {
+    if (!profile){
+        return null;
+    }
 
-  return (
+    return (
     <Paper elevation={3} sx={{p:4, borderRadius: 3}}> 
         <Grid2 container spacing={2}>
             <Grid2 size={8}>
@@ -31,10 +35,19 @@ export default function ProfileHeader({profile}: Props) {
                             <Typography variant="h3">{profile.followingCount}</Typography>
                         </Box>
                     </Box>
-                    <Divider sx={{width: '100%'}}/>
-                    <Button fullWidth variant="outlined" color={profile.following ? 'error' : 'success'}>
-                        {profile.following ? 'Unfollow' : 'Follow'}
-                    </Button>
+                    {!isCurrentUser && (
+                        <>
+                            <Divider sx={{width: '100%'}}/>
+                            <Button fullWidth
+                                    variant="outlined" 
+                                    color={profile.following ? 'error' : 'success'}
+                                    onClick={() => updateFollowing.mutate()}
+                                    disabled={updateFollowing.isPending}
+                            >
+                                {profile.following ? 'Unfollow' : 'Follow'}
+                            </Button>
+                        </>
+                    )}
                 </Stack>
             </Grid2>
         </Grid2>
