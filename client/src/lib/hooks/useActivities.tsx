@@ -2,11 +2,13 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import agent from "../api/agent";
 import { useLocation } from "react-router";
 import { useAccount } from "./useAccount";
+import { useStore } from "./useStore";
 
 export const useActivities = (id?: string) => {
     const queryClient = useQueryClient();
     const { currentUser } = useAccount();
     const location  = useLocation();
+    const { activityStore: {filter, startDate} } = useStore();
 
     const {data: activitiesGroup, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage} 
         = useInfiniteQuery<PagedList<Activity, string>>({
@@ -15,7 +17,9 @@ export const useActivities = (id?: string) => {
             const response = await agent.get<PagedList<Activity, string>>('/activities', {
                 params: {
                     cursor: pageParam,
-                    pageSize: 3
+                    pageSize: 3,
+                    filter,
+                    startDate
                 }
             });
             return response.data;
