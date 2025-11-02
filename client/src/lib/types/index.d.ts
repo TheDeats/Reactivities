@@ -57,6 +57,11 @@ type LocationIQAddress = {
   village?: string
 }
 
+type PagedList<T, TCursor> = {
+  items: T[],
+  nextCursor: TCursor
+}
+
 type Photo = {
   id: string
   url: string
