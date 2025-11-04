@@ -28,11 +28,14 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<User>(op
             x.HasOne(o => o.Observer)
                 .WithMany(f => f.Followings)
                 .HasForeignKey(o => o.ObserverId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade); // if the observer (User) is deleted then all its user followings are deleted
             x.HasOne(o => o.Target)
                 .WithMany(f => f.Followers)
                 .HasForeignKey(o => o.TargetId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
+                // using NoAction here to avoid "multiple cascade paths" error in SQL Server.
+                // since the user is not allowed to delete their account it doesnt matter
+                // but if they could delete it the best option is to add some code to delete these entries as well in the application handler
         });
 
         ValueConverter<DateTime, DateTime> dateTimeConverter = new(
