@@ -1,0 +1,71 @@
+Deploy to Azure Notes
+
+Prepare the Client App For Publishing
+-In Client App create .env.production file with updated paths
+-Add build configuration to vite.config.ts
+-Run: npm run build and take care of any warnings/errors
+--wwwroot folder with files is created
+-Check for any fake delays and ensure they only run in development mode
+
+Serve the Client App From the .Net Kestrel server
+-Update Program.cs to return static assets and add some middleware
+-Add Fallback Controller so unknown routes to the server get routed to the client app. Map it in program.cs
+-Test it runs from server address
+
+Local Sql Server DB
+-I already have SQL Server and SQL Server Management Studio installed so I used that. Instructor used Docker
+-Install Microsoft.EntityFrameworkCore.SqlServer to Persistence project.
+-Drop sqlite database: dotnet ef database drop -p Persistence -s API
+-Delete the whole folder or migrations
+-Update appsettings.Development.json with the proper connection string ex: "Server=(localdb)\\MSSQLLocalDB;Database=reactivities;Integrated Security=True;TrustServerCertificate=True"
+-Update Program.cs to UseSqlServer instead of UseSqlite
+-Remove SQLite package from Persistence.csproj then run: dotnet restore
+-Create a new migrations: dotnet ef migrations add InitialSql -p Persistence -s API
+-Run the app to apply the migration and test the db
+
+Setting Up Azure
+-Sign into account. Free account started 11-4-25
+-Create a resource group, I had to use region US West 3 or I got VM provisioning errors
+-Create an App Service.
+--Choose Name (aka site URL)
+--Use the same region
+--Create a new app service plan aka Windows plan
+--Insights was enabled
+-Check Default Domain url and see a placeholder web app page
+
+Create an Azure Sql DB
+-From the Azure Resource Group create a SQL Database.
+--Create a new Server
+---Use SQL authentication, create strong password
+--Development workload environment
+--Locally redundant backup storage
+-Once deployed open the SQL Server in the resource group and 
+-Security -> Networking
+--Set Public network access to Selected networks
+--Check the Allow Azure services and resources to access this server.
+--Save
+-Open the SQL Database and select connection strings. Copy the ADO.NET (SQL authentication)
+-Go back to the resource group and open the app service. Go to Settings -> Environment Variables. Connection Strings tab, Add
+--DefaultConnection
+--Paste string in value, update password
+--Type: SQLServer
+
+Deploy App to Azure
+-Run: dotnet publish -c Release -o ./bin/Publish
+--API -> bin -> Publish will have the published version of the app
+-Install the VS code extension Azure App Service
+-Click on the Azure tab and sign into your account. Check you can see the App service that was previously created.
+-Right Click the Publish folder and select Deploy to Web App...
+--Choose the app and select Deploy on the popup
+-Go back to the resource group and select the App Service
+--Restart the app
+-Go to the Domain URL and refresh. The app should be running
+
+Continuous Deployment Part 1
+-Connect Github account
+--App Service -> Deployment -> Deployment Center
+--Add a workflow
+--User-assigned identity
+--Save and it will commit a yml file with the workflow to Github
+-Modify the yml file to install node.js and build the client app
+-Commit changes to github
