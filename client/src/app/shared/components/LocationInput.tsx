@@ -12,6 +12,13 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
     const [loading, setLoading] = useState(false);
     const [suggestiongs, setSuggestions] = useState<LocationIQSuggestion[]> ([]);
     const [inputValue, setInputValue] = useState(field.value || '');
+    const getErrorMessage = () => {
+        if (!fieldState.error) return undefined;
+        if (fieldState.error.message) return fieldState.error.message;
+        const error = fieldState.error as Record<string, { message?: string }>;
+        return error.city?.message || error.venue?.message || error.latitude?.message || error.longitude?.message;
+    };
+    const errorMessage = getErrorMessage();
 
     const locationUrl = 'https://api.locationiq.com/v1/autocomplete?key=pk.7fb26b1905df3d883c55065bec529139&limit=5&dedupe=1&';
 
@@ -65,7 +72,7 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
             fullWidth
             variant="outlined"
             error={!!fieldState.error}
-            helperText={fieldState.error?.message}
+            helperText={errorMessage}
         />
         {loading && <Typography>Loading...</Typography>}
         {suggestiongs.length > 0 && (
