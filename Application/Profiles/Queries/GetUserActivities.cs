@@ -30,7 +30,7 @@ public class GetUserActivities
             query = request.Filter switch
             {
                 "past" => query.Where(x => x.Date < DateTime.UtcNow),
-                "hosting" => query.Where(x => x.Attendees.Any(a => a.IsHost)),
+                "hosting" => query.Where(x => x.Attendees.Any(a => a.IsHost && a.UserId == request.UserId)),
                 _ => query.Where(x => x.Date >= DateTime.UtcNow),
             };
 
