@@ -7,6 +7,10 @@ dotnet sln add API
 dotnet sln add Domain
 dotnet sln add Application
 dotnet sln add Persistence
+npm create vite@latest
+npm install
+npm run dev
+dotnet watch
 code .
 dotnet tool install --global dotnet-ef --version 9.0.0 (Already installed)
 npm install -D vite-plugin-mkcert -> Creates a local Certificate Authority which creates locally trusted development certificates.
